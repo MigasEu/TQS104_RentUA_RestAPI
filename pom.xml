@@ -94,7 +94,7 @@
                             <goal>deploy</goal>  
                         </goals>  
                         <configuration>  
-                            <hostname>${hostname}</hostname>  
+                            <hostname>192.168.160.225</hostname>  
                             <port>9990</port>  
                             <username>admin</username>  
                             <password>grupo104</password>  

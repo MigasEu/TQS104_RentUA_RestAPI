@@ -87,10 +87,10 @@
                 <artifactId>wildfly-maven-plugin</artifactId>
                 <version>1.1.0.Final</version>
                 <configuration>  
-                    <hostname>192.168.160.225</hostname>  
-                    <port>9990</port>  
-                    <username>admin</username>  
-                    <password>grupo104</password>  
+                    <hostname>${wHostname}</hostname>  
+                    <port>${wPort}</port>  
+                    <username>${wUsername}</username>  
+                    <password>${wPassword}</password>  
                 </configuration> 
             </plugin>
         </plugins>

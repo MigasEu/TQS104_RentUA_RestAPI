@@ -82,6 +82,17 @@
                     </execution>
                 </executions>
             </plugin>
+            <plugin>
+                <groupId>org.wildfly.plugins</groupId>
+                <artifactId>wildfly-maven-plugin</artifactId>
+                <version>1.0.2.Final</version>
+                <configuration>
+                    <hostname>${hostname}</hostname>
+                    <port>8080</port>
+                    <username>tqs104</username>
+                    <password>grupo104</password>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
 

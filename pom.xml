@@ -86,21 +86,12 @@
                 <groupId>org.wildfly.plugins</groupId>
                 <artifactId>wildfly-maven-plugin</artifactId>
                 <version>1.1.0.Final</version>
-                <executions>  
-                    <execution>  
-                        <id>deploy-project</id>  
-                        <phase>install</phase>  
-                        <goals>  
-                            <goal>deploy</goal>  
-                        </goals>  
-                        <configuration>  
-                            <hostname>192.168.160.225</hostname>  
-                            <port>9990</port>  
-                            <username>admin</username>  
-                            <password>grupo104</password>  
-                        </configuration>  
-                    </execution>  
-                </executions>  
+                <configuration>  
+                    <hostname>192.168.160.225</hostname>  
+                    <port>9990</port>  
+                    <username>admin</username>  
+                    <password>grupo104</password>  
+                </configuration> 
             </plugin>
         </plugins>
     </build>

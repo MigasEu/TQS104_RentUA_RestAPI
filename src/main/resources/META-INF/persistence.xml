@@ -3,11 +3,7 @@
     <persistence-unit name="pt.ua_TQS104_RentUA_RestAPI_war_1.0-SNAPSHOTPU" transaction-type="JTA">
         <provider>org.hibernate.ejb.HibernatePersistence</provider>    
         <jta-data-source>java:jboss/datasources/MysqlDS</jta-data-source>    
-        <properties>  
-            <property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect"/>       
-            <property name="hibernate.show_sql" value="true"/>   
-            <property name="hibernate.max_fetch_depth" value="3"/>  
-            <property name="hibernate.hbm2ddl.auto" value="update" />  
-        </properties>  
+        <properties>
+            <property name="javax.persistence.schema-generation.database.action" value="drop-and-create"/>
     </persistence-unit>
 </persistence>

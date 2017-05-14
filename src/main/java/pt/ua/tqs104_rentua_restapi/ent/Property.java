@@ -44,7 +44,7 @@ public abstract class Property implements Serializable {
     @NotNull @ManyToOne
     protected User owner;
     @OneToMany(mappedBy = "property")
-    protected List<Rental> rentals;
+    protected transient List<Rental> rentals;
 
     public Long getId() {
         return id;

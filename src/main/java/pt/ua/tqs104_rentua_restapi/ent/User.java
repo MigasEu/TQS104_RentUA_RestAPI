@@ -101,6 +101,7 @@ public class User implements Serializable {
         return properties;
     }
 
+    @XmlTransient
     public List<Rental> getRentals() {
         return rentals;
     }

@@ -31,7 +31,7 @@ import javax.xml.bind.annotation.XmlTransient;
 public abstract class Property implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     protected Long id;
     @NotNull
     private String title;
@@ -42,7 +42,7 @@ public abstract class Property implements Serializable {
     @Min(0)
     private double price;
     @NotNull @ManyToOne
-    protected User owner;
+    protected RentUser owner;
     @OneToMany(mappedBy = "property")
     protected transient List<Rental> rentals;
 
@@ -119,11 +119,11 @@ public abstract class Property implements Serializable {
         this.price = price;
     }
 
-    public User getOwner() {
+    public RentUser getOwner() {
         return owner;
     }
 
-    public void setOwner(User own) {
+    public void setOwner(RentUser own) {
         if (!own.equals(this.owner)) {
             this.owner = own;
             own.addProperty(this);

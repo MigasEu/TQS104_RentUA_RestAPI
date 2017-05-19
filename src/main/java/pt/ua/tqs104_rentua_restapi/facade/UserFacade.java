@@ -8,16 +8,16 @@ package pt.ua.tqs104_rentua_restapi.facade;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import pt.ua.tqs104_rentua_restapi.ent.User;
+import pt.ua.tqs104_rentua_restapi.ent.RentUser;
 
 /**
  *
  * @author migas
  */
 @Stateless
-public class UserFacade extends AbstractFacade<User> {
+public class UserFacade extends AbstractFacade<RentUser> {
 
-    @PersistenceContext(unitName = "pt.ua_TQS104_RentUA_RestAPI_war_1.0-SNAPSHOTPU")
+    @PersistenceContext
     private EntityManager em;
 
     @Override
@@ -26,7 +26,7 @@ public class UserFacade extends AbstractFacade<User> {
     }
 
     public UserFacade() {
-        super(User.class);
+        super(RentUser.class);
     }
     
 }

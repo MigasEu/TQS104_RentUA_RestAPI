@@ -24,14 +24,14 @@ public class Rental implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String start;
     private String end;
     @ManyToOne
     private Property property;
     @ManyToOne
-    private User renter;
+    private RentUser renter;
 
     public Long getId() {
         return id;
@@ -93,11 +93,11 @@ public class Rental implements Serializable {
         }
     }
 
-    public User getRenter() {
+    public RentUser getRenter() {
         return renter;
     }
 
-    public void setRenter(User rtr) {
+    public void setRenter(RentUser rtr) {
         if (!rtr.equals(this.renter)) {
             this.renter = rtr;
             rtr.addRental(this);

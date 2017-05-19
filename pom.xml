@@ -12,7 +12,24 @@
     <properties>
         <endorsed.dir>${project.build.directory}/endorsed</endorsed.dir>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        
+        <arquillian.version>1.1.13.Final</arquillian.version>
+        <arquillan.glassfish.embedded.version>1.0.0.Final</arquillan.glassfish.embedded.version>
+        <arquillian_persistence.version>1.0.0.Alpha6</arquillian_persistence.version>
+        <glassfish.embedded.all.version>4.0</glassfish.embedded.all.version>
     </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.jboss.arquillian</groupId>
+                <artifactId>arquillian-bom</artifactId>
+                <version>1.0.3.Final</version>
+                <scope>import</scope>
+                <type>pom</type>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
     
     <dependencies>
         <dependency>
@@ -20,6 +37,7 @@
             <artifactId>junit</artifactId>
             <version>4.12</version>
             <scope>test</scope>
+            <type>jar</type>
         </dependency>
         <dependency>
             <groupId>org.hamcrest</groupId>
@@ -40,10 +58,33 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
+            <groupId>org.jboss.arquillian.junit</groupId>
+            <artifactId>arquillian-junit-core</artifactId>
+            <scope>test</scope>
+            <type>jar</type>
+        </dependency>
+        <dependency>
             <groupId>javax</groupId>
             <artifactId>javaee-web-api</artifactId>
             <version>7.0</version>
             <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.jboss.arquillian.junit</groupId>
+            <artifactId>arquillian-junit-container</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.jboss.arquillian.extension</groupId>
+            <artifactId>arquillian-persistence-api</artifactId>
+            <version>${arquillian_persistence.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.jboss.arquillian.extension</groupId>
+            <artifactId>arquillian-persistence-impl</artifactId>
+            <version>${arquillian_persistence.version}</version>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 
@@ -96,5 +137,25 @@
             </plugin>
         </plugins>
     </build>
+    
+    <profiles>
+        <profile>
+            <id>glassfish</id>
+            <dependencies>
+                <dependency>
+                    <groupId>org.jboss.arquillian.container</groupId>
+                    <artifactId>arquillian-glassfish-remote-3.1</artifactId>
+                    <version>1.0.0.Final</version>
+                    <scope>test</scope>
+                </dependency>
+                <dependency>
+                    <groupId>org.glassfish.main.extras</groupId>
+                    <artifactId>glassfish-embedded-all</artifactId>
+                    <version>4.0</version>
+                    <scope>test</scope>
+                </dependency>
+            </dependencies>
+        </profile>
+    </profiles>
 
 </project>

@@ -17,7 +17,7 @@ import pt.ua.tqs104_rentua_restapi.ent.Property;
 @Stateless
 public class PropertyFacade extends AbstractFacade<Property> {
 
-    @PersistenceContext(unitName = "pt.ua_TQS104_RentUA_RestAPI_war_1.0-SNAPSHOTPU")
+    @PersistenceContext
     private EntityManager em;
 
     @Override

@@ -11,7 +11,7 @@
             </property>
             <property name="adminUser">admin</property>
             <property name="adminPassword">grupo104</property>
-            <property name="adminHttps">false</property>
+            <property name="adminHttps">true</property>
             <property name="adminHost">192.168.160.225</property>
             <property name="adminPort">4848</property>
             <property name="serverHttps">false</property>

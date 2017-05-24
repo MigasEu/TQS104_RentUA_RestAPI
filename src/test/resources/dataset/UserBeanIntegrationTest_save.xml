@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <dataset>
-    <rentuser name="foo" email="foo@ua.pt" password="asd" />
-    <rentuser name="duke" email="duke@ua.pt" password="asd" />
-    <rentuser name="firstname" email="email@ua.pt" password="asd" />
+    <RENTUSER name="foo" email="foo@ua.pt" password="asd" />
+    <RENTUSER name="duke" email="duke@ua.pt" password="asd" />
+    <RENTUSER name="firstname" email="email@ua.pt" password="asd" />
 </dataset>

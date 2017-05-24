@@ -15,6 +15,7 @@
             <property name="adminHost">192.168.160.225</property>
             <property name="adminPort">4848</property>
             <property name="serverHttps">false</property>
+            <property name="ignoreCertificate">true</property>
         </configuration>
     </container>
     <container qualifier="glassfish-local">

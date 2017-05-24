@@ -20,5 +20,5 @@
         <property name="URL" value="jdbc:mysql://192.168.160.225:3306/rentuatest?zeroDateTimeBehavior=convertToNull"/>
         <property name="driverClass" value="com.mysql.jdbc.Driver"/>
     </jdbc-connection-pool>
-    <jdbc-resource enabled="true" jndi-name="java:app/RentUATest" object-type="user" pool-name="mysql_rentuatest_rentuapiPool"/>
+    <jdbc-resource enabled="true" jndi-name="java:app/RentTest" object-type="user" pool-name="mysql_rentuatest_rentuapiPool"/>
 </resources>

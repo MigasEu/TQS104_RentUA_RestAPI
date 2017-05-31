@@ -26,8 +26,8 @@ public class Rental implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    private String start;
-    private String end;
+    private String startDate;
+    private String endDate;
     @ManyToOne
     private Property property;
     @ManyToOne

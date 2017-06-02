@@ -22,6 +22,7 @@ import org.jboss.shrinkwrap.api.asset.EmptyAsset;
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.junit.Assert;
 import static org.junit.Assert.assertEquals;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import pt.ua.tqs104_rentua_restapi.facade.UserFacade;
@@ -30,6 +31,7 @@ import pt.ua.tqs104_rentua_restapi.facade.UserFacade;
  *
  * @author migas
  */
+@Ignore
 @RunWith(Arquillian.class)
 @PersistenceTest
 @Transactional(TransactionMode.ROLLBACK)
@@ -40,7 +42,7 @@ public class PersTest {
 
     @Deployment
     public static JavaArchive createTestArchive() {
-        return ShrinkWrap.create(JavaArchive.class, "test.jar") // Create jar
+        return ShrinkWrap.create(JavaArchive.class) // Create jar
                 .addPackage(RentUser.class.getPackage()) // Add classes
                 .addPackage(UserFacade.class.getPackage()) // Add more classes
                 // FEST Assert is not part of Arquillian JUnit

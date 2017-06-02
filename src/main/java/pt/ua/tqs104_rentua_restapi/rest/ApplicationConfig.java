@@ -28,7 +28,10 @@ public class ApplicationConfig extends Application {
      * out calling this method in getClasses().
      */
     private void addRestResourceClasses(Set<Class<?>> resources) {
+        resources.add(pt.ua.tqs104_rentua_restapi.filter.JWTTokenNeededFilter.class);
         resources.add(pt.ua.tqs104_rentua_restapi.rest.PropertyFacadeREST.class);
+        resources.add(pt.ua.tqs104_rentua_restapi.rest.RentUserFacadeREST.class);
+        resources.add(pt.ua.tqs104_rentua_restapi.rest.RentalFacadeREST.class);
     }
 
 }

@@ -23,7 +23,6 @@
             <property name="resourcesXml">
                 src/test/resources/glassfish-resources.xml
             </property>
-            <property name="target">local</property>
         </configuration>
     </container>
 </arquillian>

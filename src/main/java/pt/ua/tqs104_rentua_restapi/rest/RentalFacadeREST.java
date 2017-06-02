@@ -7,7 +7,6 @@ package pt.ua.tqs104_rentua_restapi.rest;
 
 import java.util.List;
 import javax.ejb.Stateless;
-import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.ws.rs.Consumes;
@@ -19,64 +18,74 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
-import pt.ua.tqs104_rentua_restapi.ent.House;
-import pt.ua.tqs104_rentua_restapi.ent.Property;
-import pt.ua.tqs104_rentua_restapi.facade.PropertyFacade;
+import pt.ua.tqs104_rentua_restapi.ent.Rental;
 
 /**
  *
  * @author migas
  */
 @Stateless
-@Path("property")
-public class PropertyFacadeREST {
-    @Inject
-    PropertyFacade propF;
+@Path("pt.ua.tqs104_rentua_restapi.ent.rental")
+public class RentalFacadeREST extends AbstractFacade<Rental> {
+
+    @PersistenceContext(unitName = "pt.ua_TQS104_RentUA_RestAPI_war_1.0-SNAPSHOTPU")
+    private EntityManager em;
+
+    public RentalFacadeREST() {
+        super(Rental.class);
+    }
 
     @POST
+    @Override
     @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public void create(Property entity) {
-        propF.create(entity);
+    public void create(Rental entity) {
+        super.create(entity);
     }
 
     @PUT
     @Path("{id}")
     @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public void edit(@PathParam("id") Long id, Property entity) {
-        propF.edit(entity);
+    public void edit(@PathParam("id") Long id, Rental entity) {
+        super.edit(entity);
     }
 
     @DELETE
     @Path("{id}")
     public void remove(@PathParam("id") Long id) {
-        propF.remove(propF.find(id));
+        super.remove(super.find(id));
     }
 
     @GET
     @Path("{id}")
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public Property find(@PathParam("id") Long id) {
-        return propF.find(id);
+    public Rental find(@PathParam("id") Long id) {
+        return super.find(id);
     }
 
     @GET
+    @Override
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public List<Property> findAll() {
-        return propF.findAll();
+    public List<Rental> findAll() {
+        return super.findAll();
     }
 
     @GET
     @Path("{from}/{to}")
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public List<Property> findRange(@PathParam("from") Integer from, @PathParam("to") Integer to) {
-        return propF.findRange(new int[]{from, to});
+    public List<Rental> findRange(@PathParam("from") Integer from, @PathParam("to") Integer to) {
+        return super.findRange(new int[]{from, to});
     }
 
     @GET
     @Path("count")
     @Produces(MediaType.TEXT_PLAIN)
     public String countREST() {
-        return String.valueOf(propF.count());
+        return String.valueOf(super.count());
+    }
+
+    @Override
+    protected EntityManager getEntityManager() {
+        return em;
     }
     
 }

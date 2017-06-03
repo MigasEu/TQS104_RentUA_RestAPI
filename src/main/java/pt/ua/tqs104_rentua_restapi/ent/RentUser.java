@@ -60,6 +60,13 @@ public class RentUser implements Serializable {
     @OneToMany(mappedBy = "renter")
     private List<Rental> rentals;
 
+    RentUser() { }
+    
+    RentUser(String login, String password) {
+        name = login;
+        this.password = password;
+    }
+
     @PrePersist
     private void setUUID() {
         password = PasswordUtils.digestPassword(password);

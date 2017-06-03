@@ -31,7 +31,6 @@ public class ApplicationConfig extends Application {
         resources.add(pt.ua.tqs104_rentua_restapi.filter.JWTTokenNeededFilter.class);
         resources.add(pt.ua.tqs104_rentua_restapi.rest.PropertyFacadeREST.class);
         resources.add(pt.ua.tqs104_rentua_restapi.rest.RentUserFacadeREST.class);
-        resources.add(pt.ua.tqs104_rentua_restapi.rest.RentalFacadeREST.class);
     }
 
 }

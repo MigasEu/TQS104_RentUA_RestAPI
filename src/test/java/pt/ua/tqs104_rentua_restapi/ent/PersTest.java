@@ -16,10 +16,8 @@ import org.jboss.arquillian.persistence.ShouldMatchDataSet;
 import org.jboss.arquillian.persistence.UsingDataSet;
 import org.jboss.arquillian.transaction.api.annotation.TransactionMode;
 import org.jboss.arquillian.transaction.api.annotation.Transactional;
-import org.jboss.shrinkwrap.api.ArchivePaths;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.asset.EmptyAsset;
-import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.junit.Assert;
 import static org.junit.Assert.assertEquals;
@@ -27,6 +25,9 @@ import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import pt.ua.tqs104_rentua_restapi.facade.UserFacade;
+import pt.ua.tqs104_rentua_restapi.filter.JWTTokenNeeded;
+import pt.ua.tqs104_rentua_restapi.rest.RentUserFacadeREST;
+import pt.ua.tqs104_rentua_restapi.util.PasswordUtils;
 
 /**
  *
@@ -43,11 +44,11 @@ public class PersTest {
     @Deployment
     public static WebArchive createTestArchive() {
         return ShrinkWrap.create(WebArchive.class)
-                .addPackage("pt.ua.tqs104_rentua_restapi.ent")
-                .addPackage("pt.ua.tqs104_rentua_restapi.util")
-                .addPackage("pt.ua.tqs104_rentua_restapi.filter")
-                .addPackage("pt.ua.tqs104_rentua_restapi.rest")
-                .addPackage("pt.ua.tqs104_rentua_restapi.facade")
+                .addPackage(RentUser.class.getPackage())
+                .addPackage(PasswordUtils.class.getPackage())
+                .addPackage(JWTTokenNeeded.class.getPackage())
+                .addPackage(RentUserFacadeREST.class.getPackage())
+                .addPackage(UserFacade.class.getPackage())
                 // FEST Assert is not part of Arquillian JUnit
                 .addPackages(true, "org.fest")
                 // .addClasses(Person.class, PersonBean.class) is an alternative

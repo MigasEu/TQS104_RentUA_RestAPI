@@ -1,7 +1,5 @@
-package pt.ua.tqs104_rentua_restapi.ent;
+package pt.ua.tqs104_rentua_restapi.rest;
 
-import com.sun.jersey.api.client.config.ClientConfig;
-import com.sun.jersey.api.client.config.DefaultClientConfig;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.container.test.api.RunAsClient;
 import org.jboss.arquillian.junit.Arquillian;
@@ -10,33 +8,18 @@ import org.jboss.arquillian.test.api.ArquillianResource;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.asset.EmptyAsset;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import javax.json.Json;
-import javax.json.JsonObject;
 import javax.json.JsonReader;
-import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.io.File;
 import java.io.StringReader;
 import java.net.URI;
-import javax.ws.rs.core.MultivaluedMap;
-
-import com.sun.jersey.api.client.Client;
-import com.sun.jersey.api.client.UniformInterfaceException;
-import com.sun.jersey.api.client.WebResource;
-import com.sun.jersey.api.json.JSONConfiguration;
-import com.sun.jersey.core.util.MultivaluedMapImpl;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.ws.rs.client.Entity;
-import javax.ws.rs.core.HttpHeaders;
-import static javax.ws.rs.core.MediaType.APPLICATION_JSON_TYPE;
 
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriBuilder;
@@ -47,20 +30,18 @@ import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
-import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.message.BasicNameValuePair;
-import org.codehaus.jackson.jaxrs.JacksonJsonProvider;
-import org.glassfish.jersey.client.ClientResponse;
-import org.glassfish.jersey.media.multipart.FormDataMultiPart;
-import org.glassfish.jersey.media.multipart.internal.MultiPartWriter;
 import org.jboss.shrinkwrap.resolver.api.maven.Maven;
 import org.junit.Assert;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
 import javax.json.JsonObject;
 import org.apache.http.util.EntityUtils;
 import org.codehaus.jettison.json.JSONObject;
+import pt.ua.tqs104_rentua_restapi.ent.RentUser;
+import pt.ua.tqs104_rentua_restapi.facade.UserFacade;
+import pt.ua.tqs104_rentua_restapi.filter.JWTTokenNeeded;
+import pt.ua.tqs104_rentua_restapi.util.PasswordUtils;
 
 @RunWith(Arquillian.class)
 @RunAsClient
@@ -89,11 +70,11 @@ public class RentUserFacadeRESTTest {
                 .importRuntimeDependencies().resolve().withTransitivity().asFile();
 
         return ShrinkWrap.create(WebArchive.class)
-                .addPackage("pt.ua.tqs104_rentua_restapi.ent")
-                .addPackage("pt.ua.tqs104_rentua_restapi.util")
-                .addPackage("pt.ua.tqs104_rentua_restapi.filter")
-                .addPackage("pt.ua.tqs104_rentua_restapi.rest")
-                .addPackage("pt.ua.tqs104_rentua_restapi.facade")
+                .addPackage(RentUser.class.getPackage())
+                .addPackage(PasswordUtils.class.getPackage())
+                .addPackage(JWTTokenNeeded.class.getPackage())
+                .addPackage(RentUserFacadeREST.class.getPackage())
+                .addPackage(UserFacade.class.getPackage())
                 .addAsResource("META-INF/persistence.xml")
                 .addAsWebInfResource(EmptyAsset.INSTANCE, "beans.xml")
                 .addAsLibraries(files);

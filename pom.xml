@@ -212,7 +212,7 @@
                         <artifactId>maven-surefire-plugin</artifactId>
                         <configuration>
                             <systemPropertyVariables>
-                                <arquillian.launch>glassfish-embedded</arquillian.launch>
+                                <arquillian.launch>glassfish-vm</arquillian.launch>
                             </systemPropertyVariables>
                         </configuration>
                     </plugin>

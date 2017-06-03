@@ -40,7 +40,7 @@ import pt.ua.tqs104_rentua_restapi.util.PasswordUtils;
  *
  * @author migas
  */
-@Path("user")
+@Path("/user")
 @Stateless
 @Transactional
 @Produces(APPLICATION_JSON)
@@ -63,7 +63,7 @@ public class RentUserFacadeREST {
     // =          Business methods          =
     // ======================================
     @POST
-    @Path("/login")
+    @Path("login")
     @Consumes(APPLICATION_FORM_URLENCODED)
     public Response authenticateUser(@FormParam("name") String login,
             @FormParam("password") String password) {
@@ -123,7 +123,7 @@ public class RentUserFacadeREST {
     }
 
     @GET
-    @Path("/{id}")
+    @Path("{id}")
     public Response findById(@PathParam("id") Long id) {
         RentUser user = em.find(RentUser.class, id);
 

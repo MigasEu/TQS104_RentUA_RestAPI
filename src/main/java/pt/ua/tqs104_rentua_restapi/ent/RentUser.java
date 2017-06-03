@@ -60,9 +60,9 @@ public class RentUser implements Serializable {
     @OneToMany(mappedBy = "renter")
     private List<Rental> rentals;
 
-    RentUser() { }
+    public RentUser() { }
     
-    RentUser(String login, String password) {
+    public RentUser(String login, String password) {
         name = login;
         this.password = password;
     }

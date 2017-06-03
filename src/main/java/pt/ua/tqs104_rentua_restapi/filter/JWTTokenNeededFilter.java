@@ -35,6 +35,7 @@ public class JWTTokenNeededFilter implements ContainerRequestFilter {
     @Inject
     private Logger logger;
 
+    @Inject
     private KeyGenerator keyGenerator;
 
     // ======================================

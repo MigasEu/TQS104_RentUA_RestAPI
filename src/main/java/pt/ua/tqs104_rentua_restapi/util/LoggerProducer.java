@@ -10,7 +10,7 @@ import javax.enterprise.context.Dependent;
  *         http://www.antoniogoncalves.org
  *         --
  */
-@Dependent
+
 public class LoggerProducer {
 
     // ======================================

@@ -41,7 +41,7 @@ import pt.ua.tqs104_rentua_restapi.util.PasswordUtils;
  * @author migas
  */
 @Path("/user")
-@Stateless
+@javax.enterprise.context.RequestScoped
 @Transactional
 @Produces(APPLICATION_JSON)
 @Consumes(APPLICATION_JSON)

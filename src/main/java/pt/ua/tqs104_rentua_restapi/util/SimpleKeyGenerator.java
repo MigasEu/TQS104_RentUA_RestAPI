@@ -9,7 +9,7 @@ import javax.enterprise.context.Dependent;
  *         http://www.antoniogoncalves.org
  *         --
  */
-@Dependent
+
 public class SimpleKeyGenerator implements KeyGenerator {
 
     // ======================================

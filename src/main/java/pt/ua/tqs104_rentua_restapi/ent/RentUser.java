@@ -7,30 +7,51 @@ package pt.ua.tqs104_rentua_restapi.ent;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.UUID;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.PrePersist;
 import javax.validation.constraints.NotNull;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
+import pt.ua.tqs104_rentua_restapi.util.PasswordUtils;
 
 /**
  *
  * @author migas
  */
 @Entity
+@NamedQueries({
+    @NamedQuery(name = RentUser.FIND_ALL, query = "SELECT u FROM RentUser u ORDER BY u.name DESC")
+    ,
+        @NamedQuery(name = RentUser.FIND_BY_LOGIN_PASSWORD, query = "SELECT u FROM RentUser u WHERE u.name = :login AND u.password = :password")
+    ,
+        @NamedQuery(name = RentUser.COUNT_ALL, query = "SELECT COUNT(u) FROM RentUser u")
+    ,
+        @NamedQuery(name = RentUser.FIND_BY_LOGIN, query = "SELECT u FROM RentUser u WHERE u.name = :login")
+})
 @XmlRootElement
+@XmlAccessorType(XmlAccessType.FIELD)
 public class RentUser implements Serializable {
-
+    public static final String FIND_ALL = "RentUser.findAll";
+    public static final String COUNT_ALL = "RentUser.countAll";
+    public static final String FIND_BY_LOGIN_PASSWORD = "RentUser.findByLoginAndPassword";
+    public static final String FIND_BY_LOGIN = "RentUser.findByLogin";
+    
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @NotNull
+    @NotNull @Column(unique=true)
     private String name;
-    @NotNull
     private String email;
     @NotNull
     private String password;
@@ -39,6 +60,18 @@ public class RentUser implements Serializable {
     @OneToMany(mappedBy = "renter")
     private List<Rental> rentals;
 
+    RentUser() { }
+    
+    RentUser(String login, String password) {
+        name = login;
+        this.password = password;
+    }
+
+    @PrePersist
+    private void setUUID() {
+        password = PasswordUtils.digestPassword(password);
+    }
+    
     public Long getId() {
         return id;
     }
@@ -69,7 +102,7 @@ public class RentUser implements Serializable {
 
     @Override
     public String toString() {
-        return "pt.ua.tqs104_rentua_restapi.ent.User[ id=" + id + " ]";
+        return "pt.ua.tqs104_rentua_restapi.ent.RentUser[ id=" + id + " ]";
     }
 
     public String getName() {
@@ -105,14 +138,14 @@ public class RentUser implements Serializable {
     public List<Rental> getRentals() {
         return rentals;
     }
-    
+
     public void addProperty(Property ppt) {
         if (!this.properties.contains(ppt)) {
             this.properties.add(ppt);
             ppt.setOwner(this);
         }
     }
-    
+
     public void addRental(Rental rnt) {
         if (!this.rentals.contains(rnt)) {
             this.rentals.add(rnt);

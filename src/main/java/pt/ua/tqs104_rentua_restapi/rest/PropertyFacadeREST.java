@@ -19,6 +19,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import pt.ua.tqs104_rentua_restapi.ent.House;
 import pt.ua.tqs104_rentua_restapi.ent.Property;
 import pt.ua.tqs104_rentua_restapi.facade.PropertyFacade;
 

@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>RentUA - Renting hub</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        <link rel="stylesheet" href="../css/rent_hub.css">
+
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        <script src="../js/main.js"></script>
+    </head>
+    <body>
+        <!-- Navigation Bar -->
+        <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#mainNavBar">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="../index.html">RentUA</a>
+                </div>
+                <div class="collapse navbar-collapse" id="mainNavBar">
+                    <ul class="nav navbar-nav">
+                        <li><a href="#">About</a></li>
+                        <li><a href="#">Contact us</a></li>
+                    </ul>
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><a href="profile.html">Hello Stranger</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+        <div class="container">
+
+            <div class="row">
+
+                <div class="col-md-3">
+                    <p class="lead">Filter By</p>
+                    <form style="font-size: 20px;">
+                        <select id="filterby">
+                            <option value="" disabled selected hidden>Choose your filter</option>
+                            <option value="popularity">Popularity</option>
+                            <option value="price">Price</option>
+                            <option value="price_range">Price range</option>
+                        </select><br><br>
+
+                        <input id="filter_price" class="form-control" type="number" min="0" style="width: 50%; display: none;" placeholder="PRICE">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <input id="filter_price_range_from" class="form-control" type="number" min="0" style="width: 80%; display: none;" placeholder="FROM">
+                            </div>
+                            <div class="col-md-6">
+                                <input id="filter_price_range_to" class="form-control" type="number" min="0" style="width: 80%; display: none;" placeholder="TO">
+                            </div>
+                        </div><br>
+                        <input id="filter_price" class="btn btn-primary" type="submit" value="Search">
+                    </form>
+                </div>
+
+                <div class="col-md-9">
+
+                    <div class="row">
+
+                        <div class="col-sm-4 col-lg-4 col-md-4">
+                            <div class="thumbnail">
+                                <img src="http://placehold.it/450x250" alt="">
+                                <div class="caption">
+                                    <h4 class="pull-right">€130</h4>
+                                    <h4><a href="#">First Room</a>
+                                    </h4>
+                                    <p>This is a short description. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                                </div>
+                                <div class="ratings">
+                                    <p class="pull-right">15 reviews</p>
+                                    <p>
+                                        <span class="glyphicon glyphicon-star"></span>
+                                        <span class="glyphicon glyphicon-star"></span>
+                                        <span class="glyphicon glyphicon-star"></span>
+                                        <span class="glyphicon glyphicon-star"></span>
+                                        <span class="glyphicon glyphicon-star"></span>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-4 col-lg-4 col-md-4">
+                            <div class="thumbnail">
+                                <img src="http://placehold.it/450x250" alt="">
+                                <div class="caption">
+                                    <h4 class="pull-right">€145</h4>
+                                    <h4><a href="#">Second Room</a>
+                                    </h4>
+                                    <p>This is a short description. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                                </div>
+                                <div class="ratings">
+                                    <p class="pull-right">12 reviews</p>
+                                    <p>
+                                        <span class="glyphicon glyphicon-star"></span>
+                                        <span class="glyphicon glyphicon-star"></span>
+                                        <span class="glyphicon glyphicon-star"></span>
+                                        <span class="glyphicon glyphicon-star"></span>
+                                        <span class="glyphicon glyphicon-star-empty"></span>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-4 col-lg-4 col-md-4">
+                            <div class="thumbnail">
+                                <img src="http://placehold.it/450x250" alt="">
+                                <div class="caption">
+                                    <h4 class="pull-right">€170</h4>
+                                    <h4><a href="#">Third Room</a>
+                                    </h4>
+                                    <p>This is a short description. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                                </div>
+                                <div class="ratings">
+                                    <p class="pull-right">31 reviews</p>
+                                    <p>
+                                        <span class="glyphicon glyphicon-star"></span>
+                                        <span class="glyphicon glyphicon-star"></span>
+                                        <span class="glyphicon glyphicon-star"></span>
+                                        <span class="glyphicon glyphicon-star"></span>
+                                        <span class="glyphicon glyphicon-star-empty"></span>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-4 col-lg-4 col-md-4">
+                            <div class="thumbnail">
+                                <img src="http://placehold.it/450x250" alt="">
+                                <div class="caption">
+                                    <h4 class="pull-right">€230</h4>
+                                    <h4><a href="#">Fourth Room</a>
+                                    </h4>
+                                    <p>This is a short description. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                                </div>
+                                <div class="ratings">
+                                    <p class="pull-right">6 reviews</p>
+                                    <p>
+                                        <span class="glyphicon glyphicon-star"></span>
+                                        <span class="glyphicon glyphicon-star"></span>
+                                        <span class="glyphicon glyphicon-star"></span>
+                                        <span class="glyphicon glyphicon-star-empty"></span>
+                                        <span class="glyphicon glyphicon-star-empty"></span>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-4 col-lg-4 col-md-4">
+                            <div class="thumbnail">
+                                <img src="http://placehold.it/450x250" alt="">
+                                <div class="caption">
+                                    <h4 class="pull-right">€200 </h4>
+                                    <h4><a href="#">Fifth Room  </a>
+                                    </h4>
+                                    <p>This is a short description. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                                </div>
+                                <div class="ratings">
+                                    <p class="pull-right">18 reviews</p>
+                                    <p>
+                                        <span class="glyphicon glyphicon-star"></span>
+                                        <span class="glyphicon glyphicon-star"></span>
+                                        <span class="glyphicon glyphicon-star"></span>
+                                        <span class="glyphicon glyphicon-star"></span>
+                                        <span class="glyphicon glyphicon-star-empty"></span>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+    </body>
+</html>

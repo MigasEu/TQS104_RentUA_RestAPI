@@ -19,4 +19,26 @@ $(document).ready(function () {
         $("#info_guardar").hide();
         $("#info_cancelar").hide();
     });
+    
+    $(document).on("change", "#filterby", function () {
+       value = $(this).val();
+       
+       if (value == 'price') {
+           $("#filter_price").show();
+           $("#filter_price_range_from").hide();
+           $("#filter_price_range_to").hide();
+       }
+       
+       else if (value == 'price_range') {
+           $("#filter_price").hide();
+           $("#filter_price_range_from").show();
+           $("#filter_price_range_to").show();
+       }
+       
+       else {
+           $("#filter_price").hide();
+           $("#filter_price_range_from").hide();
+           $("#filter_price_range_to").hide();
+       }
+    });
 });

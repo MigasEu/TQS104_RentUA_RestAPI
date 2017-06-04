@@ -38,6 +38,7 @@ import static org.junit.Assert.assertEquals;
 import javax.json.JsonObject;
 import org.apache.http.util.EntityUtils;
 import org.codehaus.jettison.json.JSONObject;
+import org.junit.Ignore;
 import pt.ua.tqs104_rentua_restapi.ent.RentUser;
 import pt.ua.tqs104_rentua_restapi.facade.UserFacade;
 import pt.ua.tqs104_rentua_restapi.filter.JWTTokenNeeded;
@@ -45,7 +46,8 @@ import pt.ua.tqs104_rentua_restapi.util.PasswordUtils;
 
 @RunWith(Arquillian.class)
 @RunAsClient
-public class RentUserFacadeRESTTest {
+@Ignore
+public class RentUserFacadeRESTIT {
 
     // ======================================
     // =             Attributes             =

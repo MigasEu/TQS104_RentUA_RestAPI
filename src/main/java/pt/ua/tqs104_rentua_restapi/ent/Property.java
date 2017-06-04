@@ -5,15 +5,18 @@
  */
 package pt.ua.tqs104_rentua_restapi.ent;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.NotNull;
@@ -26,9 +29,13 @@ import javax.xml.bind.annotation.XmlTransient;
  * @author migas
  */
 @Entity
-@Inheritance(strategy = InheritanceType.JOINED)
+@NamedQueries({
+        @NamedQuery(name = Property.FIND_BY_USER, query = "SELECT p FROM Property p WHERE p.owner = :ownerId")
+})
 @XmlRootElement
-public abstract class Property implements Serializable {
+public class Property implements Serializable {
+    public static final String FIND_BY_USER = "Property.findByUser";
+    
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -43,9 +50,13 @@ public abstract class Property implements Serializable {
     private double price;
     @NotNull @ManyToOne
     protected RentUser owner;
-    @OneToMany(mappedBy = "property")
-    protected transient List<Rental> rentals;
+    @OneToMany(mappedBy = "property", cascade = CascadeType.ALL)
+    @JsonIgnore
+    protected transient List<Rental> rentals = new ArrayList<>();
 
+    public static final int TYPE_HOUSE = 0;
+    public static final int TYPE_BEDROOM = 1;
+    
     public Long getId() {
         return id;
     }

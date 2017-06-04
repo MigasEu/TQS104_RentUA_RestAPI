@@ -8,28 +8,23 @@ package pt.ua.tqs104_rentua_restapi.rest;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.jsonwebtoken.Jwts;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
+import javax.transaction.Transactional;
+import javax.ws.rs.*;
 import java.security.Key;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.TypedQuery;
-import javax.ws.rs.Consumes;
-import javax.ws.rs.GET;
-import javax.ws.rs.HeaderParam;
-import javax.ws.rs.InternalServerErrorException;
-import javax.ws.rs.NotFoundException;
-import javax.ws.rs.POST;
-import javax.ws.rs.PUT;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import static javax.ws.rs.core.MediaType.APPLICATION_FORM_URLENCODED;
+import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 import pt.ua.tqs104_rentua_restapi.ent.Property;
 import pt.ua.tqs104_rentua_restapi.ent.RentUser;
+import pt.ua.tqs104_rentua_restapi.ent.Rental;
 import pt.ua.tqs104_rentua_restapi.facade.PropertyFacade;
-import pt.ua.tqs104_rentua_restapi.facade.UserFacade;
+import pt.ua.tqs104_rentua_restapi.facade.RentalFacade;
 import pt.ua.tqs104_rentua_restapi.filter.JWTTokenNeeded;
 import pt.ua.tqs104_rentua_restapi.util.SimpleKeyGenerator;
 
@@ -37,22 +32,27 @@ import pt.ua.tqs104_rentua_restapi.util.SimpleKeyGenerator;
  *
  * @author migas
  */
+@Path("/rental")
+//@javax.enterprise.context.RequestScoped
 @Stateless
-@Path("/property")
-public class PropertyFacadeREST {
+@Transactional
+@Produces(APPLICATION_JSON)
+@Consumes(APPLICATION_JSON)
+public class RentalFacadeREST {
 
+    @Inject
+    RentalFacade rentF;
     @Inject
     PropertyFacade propF;
-    @Inject
-    UserFacade userF;
-
     @PersistenceContext
     private EntityManager em;
 
     @POST
-    @Consumes({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     @JWTTokenNeeded
-    public void create(@HeaderParam("Authorization") String token, Property entity) {
+    @Consumes(APPLICATION_FORM_URLENCODED)
+    public void create(@HeaderParam("Authorization") String token, 
+            @FormParam("startDate") String startDate, @FormParam("endDate") String endDate,
+            @FormParam("propertyId") int propertyId) {
         String justTheToken = token.substring("Bearer".length()).trim();
         Key key = new SimpleKeyGenerator().generateKey();
         String name = Jwts.parser().setSigningKey(key).parseClaimsJws(justTheToken).getBody().getSubject();
@@ -60,11 +60,18 @@ public class PropertyFacadeREST {
         TypedQuery<RentUser> query = em.createNamedQuery(RentUser.FIND_BY_LOGIN, RentUser.class);
         query.setParameter("login", name);
         try {
-            entity.setOwner(query.getSingleResult());
+            Rental rental = new Rental();
+            rental.setStartDate(startDate);
+            rental.setEndDate(endDate);
+            rental.setRenter(query.getSingleResult());
+            Property property = propF.find(new Long(propertyId));
+            if (property == null)
+                throw new NotFoundException("Property not found");
+            rental.setProperty(property);
+            rentF.create(rental);
         } catch (javax.persistence.NoResultException ex) {
-            throw new NotFoundException();
+            throw new NotAuthorizedException("Token's user is not valid!");
         }
-        propF.create(entity);
     }
 
     @GET
@@ -72,7 +79,7 @@ public class PropertyFacadeREST {
     @Produces(MediaType.APPLICATION_JSON)
     public String find(@PathParam("id") Long id) {
         ObjectMapper mapper = new ObjectMapper();
-        Property prop = propF.find(id);
+        Rental prop = rentF.find(id);
         if (prop == null) {
             throw new NotFoundException();
         }
@@ -88,7 +95,7 @@ public class PropertyFacadeREST {
     public String findAll() {
         ObjectMapper mapper = new ObjectMapper();
         try {
-            return mapper.writeValueAsString(propF.findAll());
+            return mapper.writeValueAsString(rentF.findAll());
         } catch (JsonProcessingException ex) {
             throw new InternalServerErrorException();
         }
@@ -100,14 +107,31 @@ public class PropertyFacadeREST {
     public String findByUser(@PathParam("name") String name) {
         TypedQuery<RentUser> query = em.createNamedQuery(RentUser.FIND_BY_LOGIN, RentUser.class);
         query.setParameter("login", name);
-        TypedQuery<Property> query2 = em.createNamedQuery(Property.FIND_BY_USER, Property.class);
-
+        TypedQuery<Rental> query2 = em.createNamedQuery(Rental.FIND_BY_USER, Rental.class);
         try {
-            query2.setParameter("ownerId", query.getSingleResult());
-            List<Property> userProps = query2.getResultList();
+            query2.setParameter("renterId", query.getSingleResult());
+            List<Rental> userRentals = query2.getResultList();
 
             ObjectMapper mapper = new ObjectMapper();
-            return mapper.writeValueAsString(userProps);
+            return mapper.writeValueAsString(userRentals);
+        } catch (JsonProcessingException ex) {
+            throw new InternalServerErrorException();
+        } catch (javax.persistence.NoResultException ex) {
+            throw new NotFoundException();
+        }
+    }
+    
+    @GET
+    @Path("property/{propertyId}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public String findByProperty(@PathParam("propertyId") String propertyId) {
+        TypedQuery<Rental> query = em.createNamedQuery(Rental.FIND_BY_PROPERTY, Rental.class);
+        try {
+            query.setParameter("propertyId", propF.find(propertyId));
+            List<Rental> propRentals = query.getResultList();
+
+            ObjectMapper mapper = new ObjectMapper();
+            return mapper.writeValueAsString(propRentals);
         } catch (JsonProcessingException ex) {
             throw new InternalServerErrorException();
         } catch (javax.persistence.NoResultException ex) {
@@ -119,7 +143,6 @@ public class PropertyFacadeREST {
     @Path("count")
     @Produces(MediaType.TEXT_PLAIN)
     public String countREST() {
-        return String.valueOf(propF.count());
+        return String.valueOf(rentF.count());
     }
-
 }

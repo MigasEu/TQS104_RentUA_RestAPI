@@ -1,6 +1,7 @@
 body {
   background: #eee !important;
   font-family: 'Cabin', sans-serif;
+  padding-top: 70px;
 }
 
 .wrapper {

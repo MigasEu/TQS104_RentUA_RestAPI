@@ -27,3 +27,8 @@ body {
     border-color: transparent;
     color: #fff !important;
 }
+
+.logo {
+    color: #2c4868;
+    font-size: 200px;
+}   

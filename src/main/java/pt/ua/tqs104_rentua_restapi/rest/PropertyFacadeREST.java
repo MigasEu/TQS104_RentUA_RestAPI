@@ -10,6 +10,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import io.jsonwebtoken.Jwts;
 import java.security.Key;
 import java.util.List;
+import java.util.logging.Logger;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
@@ -26,6 +27,8 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
 import pt.ua.tqs104_rentua_restapi.ent.Property;
 import pt.ua.tqs104_rentua_restapi.ent.RentUser;
 import pt.ua.tqs104_rentua_restapi.facade.PropertyFacade;
@@ -46,25 +49,33 @@ public class PropertyFacadeREST {
     @Inject
     UserFacade userF;
 
+    @Inject
+    private transient Logger logger;
+    
     @PersistenceContext
     private EntityManager em;
 
     @POST
-    @Consumes({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+    @Consumes(MediaType.APPLICATION_JSON)
     @JWTTokenNeeded
-    public void create(@HeaderParam("Authorization") String token, Property entity) {
+    public Response create(@HeaderParam("Authorization") String token, Property entity) {
         String justTheToken = token.substring("Bearer".length()).trim();
         Key key = new SimpleKeyGenerator().generateKey();
         String name = Jwts.parser().setSigningKey(key).parseClaimsJws(justTheToken).getBody().getSubject();
+        
+        logger.info("create Property: "+entity.getTitle()+"+"+entity.getPrice()+"-"+entity.getType());
 
         TypedQuery<RentUser> query = em.createNamedQuery(RentUser.FIND_BY_LOGIN, RentUser.class);
         query.setParameter("login", name);
         try {
             entity.setOwner(query.getSingleResult());
         } catch (javax.persistence.NoResultException ex) {
-            throw new NotFoundException();
+            return Response.status(Status.NOT_FOUND).build();
         }
-        propF.create(entity);
+        em.persist(entity);
+        em.flush();
+        logger.info("prop.id = "+entity.getId());
+        return Response.status(Status.CREATED).header("propertyId", String.valueOf(entity.getId())).build();
     }
 
     @GET

@@ -20,6 +20,7 @@ import javax.inject.Inject;
 import javax.ws.rs.core.MediaType;
 import static javax.ws.rs.core.MediaType.APPLICATION_FORM_URLENCODED;
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
+import javax.ws.rs.core.Response;
 import pt.ua.tqs104_rentua_restapi.ent.Property;
 import pt.ua.tqs104_rentua_restapi.ent.RentUser;
 import pt.ua.tqs104_rentua_restapi.ent.Rental;
@@ -50,7 +51,7 @@ public class RentalFacadeREST {
     @POST
     @JWTTokenNeeded
     @Consumes(APPLICATION_FORM_URLENCODED)
-    public void create(@HeaderParam("Authorization") String token, 
+    public Response create(@HeaderParam("Authorization") String token, 
             @FormParam("startDate") String startDate, @FormParam("endDate") String endDate,
             @FormParam("propertyId") int propertyId) {
         String justTheToken = token.substring("Bearer".length()).trim();
@@ -69,8 +70,10 @@ public class RentalFacadeREST {
                 throw new NotFoundException("Property not found");
             rental.setProperty(property);
             rentF.create(rental);
+            em.flush();
+            return Response.status(Response.Status.CREATED).header("rantalId", String.valueOf(rental.getId())).build();
         } catch (javax.persistence.NoResultException ex) {
-            throw new NotAuthorizedException("Token's user is not valid!");
+            return Response.status(Response.Status.UNAUTHORIZED).build();
         }
     }
 
@@ -124,7 +127,7 @@ public class RentalFacadeREST {
     @GET
     @Path("property/{propertyId}")
     @Produces(MediaType.APPLICATION_JSON)
-    public String findByProperty(@PathParam("propertyId") String propertyId) {
+    public String findByProperty(@PathParam("propertyId") long propertyId) {
         TypedQuery<Rental> query = em.createNamedQuery(Rental.FIND_BY_PROPERTY, Rental.class);
         try {
             query.setParameter("propertyId", propF.find(propertyId));

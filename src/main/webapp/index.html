@@ -1,10 +1,86 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Start Page</title>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>RentUA - Home</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        <link rel="stylesheet" type="text/css" href="css/mainpage.css">
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
     </head>
     <body>
-        <h1>Hello World!</h1>
+
+        <!-- Navigation Bar -->
+        <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#mainNavBar">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="#">RentUA</a>
+                </div>
+                <div class="collapse navbar-collapse" id="mainNavBar">
+                    <ul class="nav navbar-nav">
+                        <li><a href="#">About</a></li>
+                        <li><a href="#">Contact us</a></li>
+                    </ul>
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><a href="templates/signin.html">Sign in</a></li>
+                        <li><a href="templates/signup.html">Sign up</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12 text-center">
+                    <h1>Search for Houses and Rooms</h1>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <h2 style="text-align: center;">Check in</h2>
+                </div>
+                <div class="col-md-4">
+                    <h2 style="text-align: center;">Check out</h2>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <form style="text-align: center; font-size: 30px;">
+                        <select id="checkin">
+                            <option value="" disabled selected hidden>Year - Semester</option>
+                            <option value="second_16_17">2016/2017 - 2nd Semester</option>
+                            <option value="first_17_18">2017/2018 - 1st Semester</option>
+                            <option value="second_17_18">2017/2018 - 2nd Semester</option>
+                            <option value="first_18_19">2018/2019 - 1st Semester</option>
+                            <option value="second_18_19">2018/2019 - 2nd Semester</option>
+                        </select>
+                    </form>
+                </div>
+                <div class="col-md-4">
+                    <form style="text-align: center; font-size: 30px;">
+                        <select id="checkout">
+                            <option value="" disabled selected hidden>Year - Semester</option>
+                            <option value="first_17_18">2017/2018 - 1st Semester</option>
+                            <option value="second_17_18">2017/2018 - 2nd Semester</option>
+                            <option value="first_18_19">2018/2019 - 1st Semester</option>
+                            <option value="second_18_19">2018/2019 - 2nd Semester</option>
+                        </select>
+                    </form>
+                </div>
+                <div class="col-md-4">
+                    <input type="submit" class="btn btn-primary" value="Search" style="font-size: 20px; width: 200px;">
+                </div>
+            </div>
+        </div>
     </body>
 </html>

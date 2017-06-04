@@ -1,10 +1,145 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <title>Start Page</title>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    </head>
-    <body>
-        <h1>Hello World!</h1>
-    </body>
-</html>
+<body>
+<form action="http://192.168.160.225:8080/RentUA_RestAPI/rest/user" method="post" name="myform" id="myForm">
+  <input name="name" value="harry" />
+  <input name="password" value="tester" />
+  <input name="email" value="testtest@test.com" />
+  <input type="submit">
+</form>
+    
+<form action="http://192.168.160.225:8080/RentUA_RestAPI/rest/user/login" method="post" name="mylogin" id="myLogin">
+  <input name="name" value="harry" />
+  <input name="password" value="tester" />
+  <input type="submit">
+</form>
+    
+<form action="http://192.168.160.225:8080/RentUA_RestAPI/rest/property" method="post" name="mytest" id="myTest">
+  <input name="title" value="casa fixe" />
+  <input type="number" name="price" value="500" />
+  <input type="number" name="type" value="0" min="0" max="1" />
+  <input type="submit">
+</form>
+    
+<form action="http://192.168.160.225:8080/RentUA_RestAPI/rest/rental" method="post" name="myrental" id="myRental">
+  <input name="startDate" value="2017-2" />
+  <input name="endDate" value="2018-1" />
+  <input name="propertyId" value="1" />
+  <input type="submit">
+</form>
+
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"></script>
+<script type="text/javascript" src="json2.js"></script>
+<script type="text/javascript">
+$(document).ready(function () {
+	var frm = $(document.myform);
+	frm.submit(function() {
+                var form = document.myform;
+		event.preventDefault();
+
+		var data = {};
+                for (var i = 0, ii = form.length; i < ii; ++i) {
+                  var input = form[i];
+                  if (input.name) {
+                    data[input.name] = input.value;
+                  }
+                }
+                
+                // construct an HTTP request
+                var xhr = new XMLHttpRequest();
+                xhr.open(form.method, form.action, true);
+                xhr.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
+
+                // send the collected data as JSON
+                alert(JSON.stringify(data));
+                xhr.send(JSON.stringify(data));
+                xhr.onloadend = function () {
+                  alert(xhr.responseType.token);
+                  alert(xhr.status);
+                };
+	});
+        
+        var frm2 = $(document.mylogin);
+	frm2.submit(function() {
+                var form = document.mylogin;
+		event.preventDefault();
+                
+                // construct an HTTP request
+                var xhr = new XMLHttpRequest();
+                xhr.open(form.method, form.action, true);
+                xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
+
+                // send the collected data as JSON
+                xhr.send(frm2.serialize());
+                xhr.onloadend = function () {
+                  alert(xhr.getResponseHeader("Authorization"));
+                  token = xhr.getResponseHeader("Authorization");
+                  alert(xhr.status);
+                };
+	});
+        
+        //testar login!!!!!!!!!!!!!!!!!!!!!
+        /*var frm3 = $(document.mytest);
+	frm3.submit(function() {
+                var form = document.mytest;
+		event.preventDefault();
+                
+                // construct an HTTP request
+                var xhr = new XMLHttpRequest();
+                xhr.open(form.method, form.action, true);
+                xhr.setRequestHeader('Content-Type', 'text/html; charset=UTF-8');
+                xhr.setRequestHeader("Authorization", token);
+                
+                alert("token");
+                // send the collected data as JSON
+                xhr.send();
+                xhr.onloadend = function () {
+                  alert(xhr.responseText);
+                };
+	});*/
+        
+        var frm4 = $(document.mytest);
+	frm4.submit(function() {
+                var form = document.mytest;
+		event.preventDefault();
+
+		var data = {};
+                for (var i = 0, ii = form.length; i < ii; ++i) {
+                  var input = form[i];
+                  if (input.name) {
+                    data[input.name] = input.value;
+                  }
+                }
+                
+                // construct an HTTP request
+                var xhr = new XMLHttpRequest();
+                xhr.open(form.method, form.action, true);
+                xhr.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
+                xhr.setRequestHeader("Authorization", token);
+
+                // send the collected data as JSON
+                alert(JSON.stringify(data));
+                xhr.send(JSON.stringify(data));
+                xhr.onloadend = function () {
+                  alert(xhr.responseType.token);
+                  alert(xhr.status);
+                };
+	});
+        
+        var frm5 = $(document.myrental);
+	frm5.submit(function() {
+                var form = document.myrental;
+		event.preventDefault();
+
+		var xhr = new XMLHttpRequest();
+                xhr.open(form.method, form.action, true);
+                xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
+                xhr.setRequestHeader("Authorization", token);
+
+                // send the collected data as JSON
+                xhr.send(frm5.serialize());
+                xhr.onloadend = function () {
+                  alert(xhr.status);
+                };
+	});
+});
+</script>
+</body>

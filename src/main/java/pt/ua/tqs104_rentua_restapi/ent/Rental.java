@@ -25,12 +25,14 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Entity
 @NamedQueries({
         @NamedQuery(name = Rental.FIND_BY_USER, query = "SELECT r FROM Rental r WHERE r.renter = :renterId"),
-        @NamedQuery(name = Rental.FIND_BY_PROPERTY, query = "SELECT r FROM Rental r WHERE r.property = :propertyId")
+        @NamedQuery(name = Rental.FIND_BY_PROPERTY, query = "SELECT r FROM Rental r WHERE r.property = :propertyId"),
+        @NamedQuery(name = Rental.FIND_BY_PROPERTY_FROM_TO, query = "SELECT r FROM Rental r WHERE r.property = :propertyId AND ((r.startDate >= :startDate AND r.startDate <= :endDate) OR (r.endDate >= :startDate AND r.endDate <= :endDate))")
 })
 @XmlRootElement
 public class Rental implements Serializable {
     public static final String FIND_BY_USER = "Rental.findByUser";
     public static final String FIND_BY_PROPERTY = "Rental.findByProperty";
+    public static final String FIND_BY_PROPERTY_FROM_TO = "Rental.findByPropertyFromTo";
 
     private static final long serialVersionUID = 1L;
     @Id

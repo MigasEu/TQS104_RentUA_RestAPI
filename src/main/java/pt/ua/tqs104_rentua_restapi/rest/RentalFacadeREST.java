@@ -51,7 +51,7 @@ public class RentalFacadeREST {
     @POST
     @JWTTokenNeeded
     @Consumes(APPLICATION_FORM_URLENCODED)
-    public Response create(@HeaderParam("Authorization") String token, 
+    public Response create(@HeaderParam("Authorization") String token,
             @FormParam("startDate") String startDate, @FormParam("endDate") String endDate,
             @FormParam("propertyId") int propertyId) {
         String justTheToken = token.substring("Bearer".length()).trim();
@@ -61,13 +61,26 @@ public class RentalFacadeREST {
         TypedQuery<RentUser> query = em.createNamedQuery(RentUser.FIND_BY_LOGIN, RentUser.class);
         query.setParameter("login", name);
         try {
+            if (!startDate.matches("^[0-9]{4}-[1-2]{1}$") || !endDate.matches("^[0-9]{4}-[1-2]{1}$") || startDate.compareTo(endDate)>0) {
+                return Response.status(422).build();
+            }
+
+            Property property = propF.find(new Long(propertyId));
+            if (property == null) {
+                return Response.status(Response.Status.NOT_FOUND).build();
+            }
+
+            TypedQuery<Rental> query2 = em.createNamedQuery(Rental.FIND_BY_PROPERTY_FROM_TO, Rental.class);
+            query2.setParameter("propertyId", property);
+            query2.setParameter("startDate", startDate);
+            query2.setParameter("endDate", endDate);
+            if (query2.getResultList().size() > 0) {
+                return Response.status(Response.Status.CONFLICT).build();
+            }
             Rental rental = new Rental();
             rental.setStartDate(startDate);
             rental.setEndDate(endDate);
             rental.setRenter(query.getSingleResult());
-            Property property = propF.find(new Long(propertyId));
-            if (property == null)
-                throw new NotFoundException("Property not found");
             rental.setProperty(property);
             rentF.create(rental);
             em.flush();
@@ -123,7 +136,7 @@ public class RentalFacadeREST {
             throw new NotFoundException();
         }
     }
-    
+
     @GET
     @Path("property/{propertyId}")
     @Produces(MediaType.APPLICATION_JSON)

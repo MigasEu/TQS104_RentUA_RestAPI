@@ -5,9 +5,11 @@
  */
 package pt.ua.tqs104_rentua_restapi.ent;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -55,10 +57,12 @@ public class RentUser implements Serializable {
     private String email;
     @NotNull
     private String password;
-    @OneToMany(mappedBy = "owner")
-    private List<Property> properties;
-    @OneToMany(mappedBy = "renter")
-    private List<Rental> rentals;
+    @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL)
+    @JsonIgnore
+    private List<Property> properties = new ArrayList<>();
+    @OneToMany(mappedBy = "renter", cascade = CascadeType.ALL)
+    @JsonIgnore
+    private List<Rental> rentals = new ArrayList<>();
 
     public RentUser() { }
     

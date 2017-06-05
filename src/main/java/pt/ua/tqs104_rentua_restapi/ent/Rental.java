@@ -5,13 +5,17 @@
  */
 package pt.ua.tqs104_rentua_restapi.ent;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import java.io.Serializable;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -19,19 +23,36 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author migas
  */
 @Entity
+@NamedQueries({
+        @NamedQuery(name = Rental.FIND_BY_USER, query = "SELECT r FROM Rental r WHERE r.renter = :renterId"),
+        @NamedQuery(name = Rental.FIND_BY_PROPERTY, query = "SELECT r FROM Rental r WHERE r.property = :propertyId"),
+        @NamedQuery(name = Rental.FIND_BY_PROPERTY_FROM_TO, query = "SELECT r FROM Rental r WHERE r.property = :propertyId AND ((r.startDate >= :startDate AND r.startDate <= :endDate) OR (r.endDate >= :startDate AND r.endDate <= :endDate))")
+})
 @XmlRootElement
 public class Rental implements Serializable {
+    public static final String FIND_BY_USER = "Rental.findByUser";
+    public static final String FIND_BY_PROPERTY = "Rental.findByProperty";
+    public static final String FIND_BY_PROPERTY_FROM_TO = "Rental.findByPropertyFromTo";
 
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @NotNull
     private String startDate;
+    @NotNull
     private String endDate;
     @ManyToOne
     private Property property;
     @ManyToOne
     private RentUser renter;
+
+    public Rental() { }
+
+    public Rental(String startDate, String endDate) {
+        this.startDate = startDate;
+        this.endDate = endDate;
+    }
 
     public Long getId() {
         return id;

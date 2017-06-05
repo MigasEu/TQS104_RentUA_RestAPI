@@ -28,7 +28,7 @@ import org.junit.Ignore;
 @Ignore
 @RunWith(CukeSpace.class)
 @Features({"src/test/resources/feature/list_all_properties.feature"})
-public class PropertyFacadeRESTIT {
+public class PropertyFacadeRESTCukeIT {
 
     @Deployment
     public static WebArchive createTestArchive() {

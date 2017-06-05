@@ -5,6 +5,8 @@
  */
 package pt.ua.tqs104_rentua_restapi.rest;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import pt.ua.tqs104_rentua_restapi.util.KeyGenerator;
@@ -131,16 +133,41 @@ public class RentUserFacadeREST {
         if (user == null) {
             return Response.status(NOT_FOUND).build();
         }
-
-        return Response.ok(user).build();
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            return Response.ok(mapper.writeValueAsString(user)).build();
+        } catch (JsonProcessingException ex) {
+            throw new InternalServerErrorException();
+        }
+    }
+    
+    @GET
+    @Path("name/{name}")
+    public String findByUser(@PathParam("name") String name) {
+        TypedQuery<RentUser> query = em.createNamedQuery(RentUser.FIND_BY_LOGIN, RentUser.class);
+        query.setParameter("login", name);
+        
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            return mapper.writeValueAsString(query.getSingleResult());
+        } catch (JsonProcessingException ex) {
+            throw new InternalServerErrorException();
+        } catch (javax.persistence.NoResultException ex) {
+            throw new NotFoundException();
+        }
     }
 
     @GET
-    public List<RentUser> findAllUsers() {
+    public String findAllUsers() {
         TypedQuery<RentUser> query = em.createNamedQuery(RentUser.FIND_ALL, RentUser.class);
         List<RentUser> allUsers = query.getResultList();
         
-        return allUsers;
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            return mapper.writeValueAsString(allUsers);
+        } catch (JsonProcessingException ex) {
+            throw new InternalServerErrorException();
+        }
     }
 
     // ======================================

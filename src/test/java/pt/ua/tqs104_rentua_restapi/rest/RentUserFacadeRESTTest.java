@@ -38,6 +38,7 @@ import static org.junit.Assert.assertEquals;
 import javax.json.JsonObject;
 import org.apache.http.util.EntityUtils;
 import org.codehaus.jettison.json.JSONObject;
+import org.junit.Ignore;
 import pt.ua.tqs104_rentua_restapi.ent.RentUser;
 import pt.ua.tqs104_rentua_restapi.facade.UserFacade;
 import pt.ua.tqs104_rentua_restapi.filter.JWTTokenNeeded;
@@ -88,19 +89,6 @@ public class RentUserFacadeRESTTest {
     // ======================================
     @Test
     public void shouldFailLogin() {
-        /*ClientConfig config = new DefaultClientConfig();
-        Client client = Client.create(config);
-        WebResource webResource = client.resource(UriBuilder.fromUri(baseURL).path("rest/user/login").build());
-        MultivaluedMap formData = new MultivaluedMapImpl();
-        formData.add("login", "ze");
-        formData.add("password", "pass");
-        try {
-            ClientResponse response = webResource.type(MediaType.APPLICATION_FORM_URLENCODED_TYPE).post(ClientResponse.class, formData);
-            assertEquals(Status.UNAUTHORIZED.getStatusCode(), response.getStatus());
-        } catch (UniformInterfaceException e) {
-            assertEquals(Status.UNAUTHORIZED.getStatusCode(), e.getResponse().getStatus());
-            assertNull(e.getResponse().getHeaders().get(HttpHeaders.AUTHORIZATION));
-        }*/
         HttpClient httpclient = HttpClients.createDefault();
         HttpPost httppost = new HttpPost(UriBuilder.fromUri(baseURL).path("rest/user/login").build().toString());
 
@@ -160,24 +148,5 @@ public class RentUserFacadeRESTTest {
         } catch (IOException ex) {
             Assert.fail(ex.getMessage());
         }
-    }
-
-    // ======================================
-    // =           Private methods          =
-    // ======================================
-    private String getUserId(Response response) {
-        String location = response.getHeaderString("location");
-        return location.substring(location.lastIndexOf("/") + 1);
-    }
-
-    private static JsonObject readJsonContent(Response response) {
-        JsonReader jsonReader = readJsonStringFromResponse(response);
-        return jsonReader.readObject();
-    }
-
-    private static JsonReader readJsonStringFromResponse(Response response) {
-        String jsonString = response.readEntity(String.class);
-        StringReader stringReader = new StringReader(jsonString);
-        return Json.createReader(stringReader);
     }
 }
